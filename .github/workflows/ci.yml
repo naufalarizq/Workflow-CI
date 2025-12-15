@@ -10,7 +10,7 @@ jobs:
   retrain-build-publish:
     runs-on: ubuntu-latest
     env:
-      MLFLOW_TRACKING_URI: ./mlruns
+      MLFLOW_TRACKING_URI: ${{ github.workspace }}/mlruns
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -33,7 +33,7 @@ jobs:
       - name: Find latest MLflow run ID
         id: find_run
         run: |
-          latest_run=$(ls -1t mlruns/*/*/meta.yaml | head -n 1)
+          latest_run=$(ls -1t "$MLFLOW_TRACKING_URI"/*/*/meta.yaml | head -n 1)
           echo "Latest meta: $latest_run"
           run_id=$(grep -E '^run_id:' "$latest_run" | awk '{print $2}')
           echo "Run ID: $run_id"
@@ -50,7 +50,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: mlflow-artifacts
-          path: mlruns
+          path: ${{ env.MLFLOW_TRACKING_URI }}
 
       - name: Push Docker image to Docker Hub
         env:
