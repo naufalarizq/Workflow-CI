@@ -21,7 +21,7 @@ mlflow.sklearn.autolog()
 # LOAD DATASET (PREPROCESSED)
 # =====================================================
 print("Loading dataset...")
-df = pd.read_csv("namadataset_preprocessing/mybca_preprocessing.csv")
+df = pd.read_csv("mybca_preprocessing.csv")
 
 print(f"\nDataset shape: {df.shape}")
 print(f"Columns: {df.columns.tolist()}")
